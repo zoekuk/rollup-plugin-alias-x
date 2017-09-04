@@ -1,0 +1,21 @@
+{
+  "name": "rollup-plugin-alias-x",
+  "version": "1.0.0",
+  "description": "Rollup plugin that supports module aliases across all platforms",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Zoek Applications Ltd",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "jest": "^21.0.1",
+    "lodash": "^4.17.4",
+    "rollup": "^0.49.2"
+  },
+  "jest": {
+    "testPathIgnorePatterns": ["__tests__/files/"]
+  }
+}
