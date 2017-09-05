@@ -1,8 +1,9 @@
 {
   "name": "rollup-plugin-alias-x",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Rollup plugin that supports module aliases across all platforms",
   "main": "dist/index.js",
+  "readme": "README.md",
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "babel src -d dist --ignore src/__tests__",
