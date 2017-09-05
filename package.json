@@ -6,6 +6,8 @@
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "babel src -d dist --ignore src/__tests__",
+    "preversion": "npm run build && npm test",
+    "postversion": "git push && git push --tags",
     "test": "jest"
   },
   "author": "Zoek Applications Ltd",
