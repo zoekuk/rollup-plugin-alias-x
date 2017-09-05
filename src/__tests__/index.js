@@ -1,9 +1,10 @@
 import { isFunction } from 'lodash'
 import path from 'path'
+import { rollup } from 'rollup'
 
 import alias from '..'
 
-describe('lib', () => {
+describe('plugin', () => {
 
   test('returns a resolveId function', () => {
     const result = alias()
@@ -78,8 +79,47 @@ describe('lib', () => {
     
   })
 
-  describe('works in rollup', () => {
+  describe('using rollup', () => {
 
-    test('todo')
+    // test(t =>
+    //   rollup({
+    //     entry: './files/index.js',
+    //     plugins: [alias({
+    //       fancyNumber: './aliasMe',
+    //       './anotherFancyNumber': './localAliasMe',
+    //       numberFolder: './folder',
+    //       './numberFolder': './folder',
+    //     })],
+    //   }).then(stats => {
+    //     t.is(stats.modules[0].id.endsWith('/files/nonAliased.js'), true);
+    //     t.is(stats.modules[1].id.endsWith('/files/aliasMe.js'), true);
+    //     t.is(stats.modules[2].id.endsWith('/files/localAliasMe.js'), true);
+    //     t.is(stats.modules[3].id.endsWith('/files/folder/anotherNumber.js'), true);
+    //     t.is(stats.modules[4].id.endsWith('/files/index.js'), true);
+    //     t.is(stats.modules.length, 5);
+    //   })
+    
+    test('works within rollup', () => {
+      return rollup({
+        input: path.resolve(__dirname, './files/main.js'),
+        plugins: [
+          alias ({
+            resolve: ['.jsx'],
+            app: path.resolve(__dirname, 'files'),
+            deepAnd: path.resolve(__dirname, 'files/deep/and')
+          })
+        ]
+      }).then(stats => {
+        expect(stats).toBeTruthy()
+
+        const { modules } = stats
+        expect(Array.isArray(modules)).toBeTruthy()
+        expect(modules.length).toEqual(4)
+        expect(modules[0].id).toEqual(path.resolve(__dirname, './files/folder/index.js'))
+        expect(modules[1].id).toEqual(path.resolve(__dirname, './files/deep/and/deeper/index.js'))
+        expect(modules[2].id).toEqual(path.resolve(__dirname, './files/component.jsx'))
+        expect(modules[3].id).toEqual(path.resolve(__dirname, './files/main.js'))
+      })
+    })
   })
 })
